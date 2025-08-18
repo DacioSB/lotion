@@ -1,0 +1,22 @@
+# Python / Django
+backend/venv/
+backend/db.sqlite3
+backend/secrets.sh
+backend/.env
+*.pyc
+__pycache__/
+
+# Node / Javascript
+node_modules/
+convex/node_modules/
+frontend/node_modules/
+.env.local
+convex/.env.local
+frontend/.env.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+
+# General
+.DS_Store
