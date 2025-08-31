@@ -1,61 +1,96 @@
- Now that the frontend project is scaffolded with TypeScript, PrimeVue, and Tailwind CSS, I will
-  proceed with the backend setup. I will start by creating a documents app within the Django
-  project.
+### **Project Roadmap: Notion Clone (Vue.js, Django, Convex)**
 
-  Where convex enters in this project?
+This document outlines the step-by-step plan to build a full-stack Notion clone application.
 
-✦ That's an excellent question. In the plan you approved, I've replaced Convex with Django and
-  Django Channels.
+---
 
-  Here's the reasoning:
+### **Phase 1: Core Setup & Authentication**
 
+1.  **Frontend (Vue.js) & Clerk Integration:**
+    *   Set up Clerk for authentication in the Vue.js application.
+    *   Create public routes (`/`) for the landing page and protected routes for the main application (`/dashboard`).
+    *   Build login and sign-up components using Clerk's UI elements.
 
-  Convex is a backend-as-a-service (BaaS) that provides its own database, serverless functions,
-  and real-time capabilities. Django is a full-fledged backend framework that does many of the
-  same things. Using them together would create a lot of overlap and unnecessary complexity.
+2.  **Backend (Convex) & Authentication:**
+    *   Integrate Clerk with the Convex backend to authenticate API requests.
+    *   Define the initial user schema in `convex/convex/schema.ts`.
 
+3.  **Backend (Django):**
+    *   Configure Django to serve the built Vue.js application as static files. This will be the entry point for users.
 
-  To achieve the real-time, "reactive" functionality you want, we will use Django Channels. It's
-  a Django extension that adds support for WebSockets, allowing our Django backend to push
-  updates to the Vue.js frontend in real-time, mimicking the reactive experience you'd get with
-  Convex.
+---
 
-  This approach keeps our entire backend within the powerful and consistent Django ecosystem.
+### **Phase 2: Real-time Document Management**
 
+1.  **Convex Schema & API:**
+    *   Define the `documents` schema in `convex/convex/schema.ts`. It will include fields for `title`, `content`, `parentDocument`, `isArchived`, `isPublished`, `icon`, and `coverImage`.
+    *   Implement core API functions (mutations and queries) in `convex/convex/api/documents.ts` for:
+        *   `createDocument`
+        *   `getDocuments` (for the current user)
+        *   `updateDocument` (for title, content, icon, etc.)
+        *   `archiveDocument` (soft delete)
 
-  Does that clarification work for you? We can proceed with this plan, or I can adjust the
-  architecture if you have a strong preference for using Convex.
+2.  **Frontend (Vue.js) Dashboard:**
+    *   Create a `DashboardView.vue` that fetches and displays a list of the user's documents.
+    *   This view will be the main hub for authenticated users.
 
-   Understood. We will use Convex as the primary data backend, which is an excellent choice for
-  building a real-time application.
+---
 
-  Here is the revised plan to incorporate Convex:
+### **Phase 3: Sidebar & Hierarchical Navigation**
 
+1.  **UI Development:**
+    *   Build a collapsible and expandable sidebar component.
+    *   The sidebar will display a hierarchical list of the user's documents.
 
-   * Convex as the Primary Data Backend: Convex will handle our real-time database and the core API
-     for all document-related operations. Our Vue.js frontend will communicate directly with Convex
-     for creating, reading, updating, and deleting notes. This will give us the reactive, real-time
-     experience you're looking for.
+2.  **Functionality:**
+    *   Implement real-time updates in the sidebar (new documents, title changes).
+    *   Add functionality to create new documents directly from the sidebar.
+    *   Include user settings and a logout button.
 
+---
 
-   * Django as a Supporting Backend: Django's role will be to serve the Vue.js application to the
-     user's browser. It can also handle any complex, non-real-time tasks or act as an intermediary
-     for other services if needed in the future.
+### **Phase 4: Notion-Style Editor**
 
+1.  **Editor Integration:**
+    *   Select and integrate a block-based editor library (e.g., Tiptap with custom extensions) into the main content area.
+    *   The editor should feel similar to Notion's.
 
-   * Vue.js Frontend: The frontend will remain as planned, built with Vue.js, PrimeVue, and
-     Tailwind CSS. It will use the Convex client library to interact with the database.
+2.  **Real-time Collaboration:**
+    *   Connect the editor to the Convex backend to save document content in real-time as the user types.
 
-   * Clerk for Authentication: Clerk will manage user authentication across the entire stack,
-     securing both the frontend and the backend services.
+3.  **Toolbar & Cover Image:**
+    *   Create a toolbar for the editor that allows users to add an icon to the document.
+    *   Implement the cover image feature, including file upload, replacement, and deletion.
 
+---
 
-  This architecture leverages the strengths of each technology: Convex for its powerful real-time
-  data layer, and Django for its robust web serving capabilities.
+### **Phase 5: Advanced Features**
 
+1.  **Trash & Recovery:**
+    *   Create a "Trash" interface to show archived documents.
+    *   Implement `restoreDocument` and `deleteDocumentPermanently` functions in Convex and connect them to the UI.
 
-  Does this revised plan sound good to you? If so, I will start by setting up the Convex project
+2.  **Publishing:**
+    *   Add a "Publish" toggle to the document editor.
+    *   Create a public, read-only view for published documents, accessible via a unique URL.
 
-  Landing page and route are done. Now, I'm creating DashboardView.vue at
-  frontend/src/views/DashboardView.vue for authenticated users. It'll be a simple component for now,
-  and I'll use write_file to create it.
+3.  **Search:**
+    *   Implement a search feature that allows users to find documents by title or content.
+
+---
+
+### **Phase 6: Polish & Final Touches**
+
+1.  **Theming:**
+    *   Implement a Light and Dark mode toggle.
+
+2.  **Responsiveness:**
+    *   Ensure the entire application is fully responsive and usable on mobile devices.
+
+3.  **Landing Page:**
+    *   Refine the landing page design and content.
+  
+
+I've updated DashboardView.vue with document creation, finishing Phase 2. Now, for Phase 3, I'll
+  create a placeholder Sidebar.vue component using write_file, styled with Tailwind for
+  collapsibility.
