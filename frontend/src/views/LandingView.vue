@@ -1,3 +1,8 @@
+
+<script setup>
+import { SignInButton } from "@clerk/vue";
+import Button from "primevue/button";
+</script>
 <template>
   <div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
     <div class="flex flex-column align-items-center justify-content-center">
@@ -6,6 +11,11 @@
           <div class="text-center mb-5">
             <div class="text-900 text-3xl font-medium mb-3">Welcome to your Notion Clone</div>
             <span class="text-600 font-medium">Sign in to continue</span>
+          </div>
+          <div class="text-center">
+            <SignInButton>
+              <Button label="Sign In" class="p-button-primary"></Button>
+            </SignInButton>
           </div>
         </div>
       </div>

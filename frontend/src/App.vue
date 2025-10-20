@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
-import { Authenticated, Unauthenticated, UserButton, ClerkLoaded, ClerkLoading } from "@clerk/vue";
+import { SignedIn, SignedOut, UserButton, ClerkLoaded, ClerkLoading } from "@clerk/vue";
 </script>
 
 <template>
@@ -10,7 +10,7 @@ import { Authenticated, Unauthenticated, UserButton, ClerkLoaded, ClerkLoading }
     </div>
   </ClerkLoading>
   <ClerkLoaded>
-    <Authenticated>
+    <SignedIn>
       <div class="flex flex-col h-full">
         <header class="flex items-center justify-between p-4 bg-gray-100 border-b">
           <h1 class="text-xl font-bold">My Notion</h1>
@@ -20,9 +20,9 @@ import { Authenticated, Unauthenticated, UserButton, ClerkLoaded, ClerkLoading }
           <RouterView />
         </main>
       </div>
-    </Authenticated>
-    <Unauthenticated>
+    </SignedIn>
+    <SignedOut>
       <RouterView />
-    </Unauthenticated>
+    </SignedOut>
   </ClerkLoaded>
 </template>

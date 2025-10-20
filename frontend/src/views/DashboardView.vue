@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useQuery, useMutation } from "convex-vue";
+import { useConvexQuery, useConvexMutation } from "convex-vue";
 import { api } from "../../../convex/convex/_generated/api";
 
-const documents = useQuery(api.api.documents.get, {});
-const createDocument = useMutation(api.api.documents.create);
+const { data: documents } = useConvexQuery(api.api.documents.get, {});
+const { mutate: createDocument } = useConvexMutation(api.api.documents.create);
 
 const onCreate = () => {
   createDocument({ title: "Untitled" });
