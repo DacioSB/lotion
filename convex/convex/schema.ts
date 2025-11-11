@@ -11,5 +11,13 @@ export default defineSchema({
     coverImage: v.optional(v.string()),
     icon: v.optional(v.string()),
     isPublished: v.boolean(),
-  }).index("by_user_parent", ["userId", "parentDocument"]),
+  })
+    .index("by_user", ["userId"])
+    .index("by_user_parent", ["userId", "parentDocument"]),
+  users: defineTable({
+    name: v.string(),
+    email: v.string(),
+    imageUrl: v.string(),
+    clerkId: v.string(),
+  }).index("by_clerk_id", ["clerkId"]),
 });

@@ -3,6 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "convex": "^1.13.1"
+    "@clerk/clerk-sdk-node": "^5.1.6",
+    "convex": "^1.13.1",
+    "svix": "^1.81.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0"
   }
 }
