@@ -19,6 +19,13 @@ const handleClerkWebhook = httpAction(async (ctx, request) => {
         imageUrl: event.data.image_url,
       });
       break;
+    case "user.updated":
+        await ctx.runMutation(internal.api.users.updateUser, {
+            clerkId: event.data.id,
+            name: `${event.data.first_name} ${event.data.last_name}`,
+            imageUrl: event.data.image_url,
+        });
+        break;
     // Add other webhook events to handle here
     default:
       console.log("Unhandled webhook event:", event.type);

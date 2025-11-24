@@ -13,7 +13,7 @@ import Button from "primevue/button";
             <span class="text-600 font-medium">Sign in to continue</span>
           </div>
           <div class="text-center">
-            <SignInButton>
+            <SignInButton after-sign-in-url="/dashboard" after-sign-up-url="/dashboard">
               <Button label="Sign In" class="p-button-primary"></Button>
             </SignInButton>
           </div>

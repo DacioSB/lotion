@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { convexVue } from 'convex-vue'
+import { convexVue } from 'convex-vue' // Keep convexVue for its plugin functionality
 import { clerkPlugin } from '@clerk/vue'
 
 import App from './App.vue'
@@ -10,7 +10,7 @@ import './assets/main.css'
 
 const app = createApp(App)
 
-const publishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+const publishableKey = import.meta.env.VITE_CLERK_PUBLISHable_KEY
 
 if (!publishableKey) {
   throw new Error("Missing Clerk Publishable Key")
@@ -23,9 +23,13 @@ if (!convexUrl) {
 
 app.use(createPinia())
 app.use(router)
-app.use(convexVue, { url: convexUrl})
+
 app.use(clerkPlugin, {
   publishableKey,
+})
+
+app.use(convexVue, {
+  url: convexUrl,
 })
 
 app.mount('#app')
