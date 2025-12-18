@@ -1,55 +1,50 @@
 <script setup lang="ts">
-import { useAuth, useClerk } from '@clerk/vue';
-import { ConvexProvider } from 'convex-vue';
-import { ConvexClient } from 'convex/browser';
+import { useAuth } from '@clerk/vue';
+import { useConvexClient } from 'convex-vue';
 import { ref, watchEffect } from 'vue';
 
-const clerk = useClerk();
-const { getToken, isLoaded, isSignedIn } = useAuth();
+const { isLoaded, isSignedIn, getToken } = useAuth();
+const convexClient = useConvexClient();
 
-const convexClient = new ConvexClient(import.meta.env.VITE_CONVEX_URL!);
-
-const isAuthenticated = ref(false); // Not directly used for rendering, but useful for debugging
+const isAuthenticated = ref(false);
 const isLoading = ref(true);
 
 watchEffect(async () => {
   if (!isLoaded.value) {
-    // Clerk is still loading
     isLoading.value = true;
     return;
   }
 
   if (isSignedIn.value) {
     try {
-      // Get the Clerk JWT token for Convex
-      const token = await getToken({ template: 'convex' }); // Use the 'convex' JWT template
+      const token = await getToken.value({ template: 'convex' });
+
       if (token) {
-        await convexClient.setAuth(token);
+        await convexClient.setAuth(async () => token);
         isAuthenticated.value = true;
       } else {
+        await convexClient.setAuth(async () => null);
         isAuthenticated.value = false;
       }
     } catch (error) {
       console.error('Failed to set Convex auth token:', error);
+      await convexClient.setAuth(async () => null);
       isAuthenticated.value = false;
     }
-  } else {
-    // User is signed out, clear Convex auth
-    await convexClient.setAuth(null);
+    await convexClient.setAuth(async () => null);
     isAuthenticated.value = false;
   }
+  
   isLoading.value = false;
 });
 </script>
 
 <template>
   <div v-if="isLoading">
-    <!-- Loading state while authentication is being determined -->
     Loading authentication...
   </div>
+  
   <div v-else>
-    <ConvexProvider :client="convexClient">
-      <slot />
-    </ConvexProvider>
+    <slot />
   </div>
 </template>
