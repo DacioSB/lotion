@@ -31,6 +31,7 @@ watchEffect(async () => {
       await convexClient.setAuth(async () => null);
       isAuthenticated.value = false;
     }
+  } else {
     await convexClient.setAuth(async () => null);
     isAuthenticated.value = false;
   }
